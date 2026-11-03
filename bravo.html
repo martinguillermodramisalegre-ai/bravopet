@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#161A5E">
+<meta name="description" content="BravoPet Tucumán: alimento para perros y gatos con envío a domicilio. Pedí por WhatsApp.">
+<style>[hidden]{display:none!important}img{max-width:100%}body{margin:0}</style>
+</head>
+<body>
+<title>BravoPet Tucumán</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=Martian+Mono:wght@500;700&display=swap">
+<style>
+/* Paleta BravoPet: azul marino saturado + ámbar, blancos puros. Layout: catálogo de almacén de barrio — barra fija con buscador y carrito, filtros por animal/etapa, grilla de bolsas dibujadas con el kilaje como protagonista, carrito lateral que arma el mensaje de WhatsApp. */
+:root{
+  --bg:#FFFFFF; --surface:#FFFFFF; --sunk:#EEF0FB; --band:#F4F5FC; --ink:#0B0D2E; --muted:#4A4E72; --line:#D6D9EE;
+  --accent:#23278A; --accent-ink:#FFFFFF; --sun:#FFB52E; --sun-ink:#2A1A00; --rx:#7A2FA8; --ok:#14804A;
+  --head:#161A5E; --head-ink:#FFFFFF; --head-soft:#2B3080;
+  --f-display:"Bricolage Grotesque", "Arial Rounded MT Bold", system-ui, sans-serif;
+  --f-body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-num:"Martian Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0A0C24; --surface:#12153A; --sunk:#1A1E4C; --band:#0E1130; --ink:#F7F8FF; --muted:#B4B8DE; --line:#2A2F66;
+  --accent:#FFB52E; --accent-ink:#1B1000; --sun:#FFB52E; --sun-ink:#1B1000; --rx:#D2A2F2; --ok:#4FD38A;
+  --head:#11144A; --head-ink:#FFFFFF; --head-soft:#23287A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0A0C24; --surface:#12153A; --sunk:#1A1E4C; --band:#0E1130; --ink:#F7F8FF; --muted:#B4B8DE; --line:#2A2F66;
+  --accent:#FFB52E; --accent-ink:#1B1000; --sun:#FFB52E; --sun-ink:#1B1000; --rx:#D2A2F2; --ok:#4FD38A;
+  --head:#11144A; --head-ink:#FFFFFF; --head-soft:#23287A; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--head)}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.08}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+
+/* header */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--head);color:var(--head-ink)}
+.top .wrap{display:flex;align-items:center;gap:14px;padding-block:10px}
+.logo{display:flex;align-items:center;gap:8px;font-family:var(--f-display);font-weight:800;font-size:22px;letter-spacing:-.02em;text-decoration:none;color:var(--head-ink);flex:none;line-height:1.05}
+.logo svg{width:30px;height:30px}
+.logo small{font-family:var(--f-body);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--sun)}
+.search{flex:1;min-width:0;position:relative}
+.search input{width:100%;border:2px solid transparent;background:#FFFFFF;color:#0B0D2E;border-radius:999px;padding:10px 14px 10px 38px}
+.search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:#4A4E72}
+.search input:focus{border-color:var(--sun);outline:none}
+.cartbtn{flex:none;display:flex;align-items:center;gap:8px;border:0;background:var(--sun);color:var(--sun-ink);border-radius:999px;padding:10px 16px;font-weight:700;cursor:pointer}
+.cartbtn .count{background:var(--head);color:#FFFFFF;border-radius:999px;min-width:22px;height:22px;display:inline-grid;place-items:center;font-size:12px;padding:0 6px}
+@media (max-width:640px){.logo small{display:none}.cartbtn .lbl{display:none}}
+
+/* hero */
+.hero{padding-block:30px 26px;background:var(--band);border-bottom:1px solid var(--line)}
+.hero-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:28px;align-items:end}
+.hero h1{font-size:clamp(32px,5.6vw,58px);font-weight:800;letter-spacing:-.03em}
+.hero h1 em{font-style:normal;background:linear-gradient(transparent 62%,var(--sun) 62%,var(--sun) 92%,transparent 92%);padding:0 .08em}
+.hero p.lead{color:var(--muted);font-size:17px;max-width:46ch;margin:14px 0 0}
+.promises{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.promises li{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);box-shadow:0 1px 0 var(--line);border-radius:var(--r);padding:12px 14px}
+.promises b{display:block;font-family:var(--f-display);font-size:16px}
+.promises span{color:var(--muted);font-size:13.5px}
+.promises i{flex:none;width:34px;height:34px;border-radius:10px;background:var(--sun);display:grid;place-items:center;font-style:normal}
+.promises i svg{width:20px;height:20px;color:#161A5E}
+@media (max-width:820px){.hero-grid{grid-template-columns:1fr}}
+
+/* filters */
+.filters{position:sticky;top:calc(env(safe-area-inset-top,0px) + 61px);z-index:15;background:var(--bg);box-shadow:0 6px 12px -12px rgba(11,13,46,.5);padding-block:12px;border-bottom:1px solid var(--line)}
+.animal{display:flex;gap:6px;flex-wrap:wrap}
+.seg{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font-weight:600;cursor:pointer;display:flex;gap:6px;align-items:center}
+.seg[aria-pressed="true"]{background:var(--head);color:#FFFFFF;border-color:var(--head)}
+.cats{display:flex;gap:6px;overflow-x:auto;padding-top:10px;scrollbar-width:thin}
+.chip{flex:none;border:1px dashed var(--line);background:transparent;border-radius:8px;padding:6px 11px;font-size:13.5px;font-weight:600;cursor:pointer;color:var(--muted)}
+.chip[aria-pressed="true"]{border-style:solid;border-color:var(--accent);color:var(--accent);background:var(--surface)}
+.row2{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.brandsel{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 12px;font-weight:600}
+.resultcount{color:var(--muted);font-size:13px}
+
+/* grid */
+main{padding-block:20px 40px}
+.section-title{display:flex;align-items:baseline;gap:10px;margin:26px 0 12px}
+.section-title h2{font-size:24px;letter-spacing:-.01em}
+.section-title span{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);box-shadow:0 2px 0 var(--line);border-radius:var(--r);display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.bag{position:relative;height:190px;background:#FFFFFF;display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--line)}
+.bag img.ph{width:100%;height:100%;object-fit:contain;padding:12px;background:#FFFFFF}
+.bag.noimg{background:var(--sunk)}
+.bag:not(.noimg) .pack,.bag:not(.noimg) .pet{display:none}
+.bag.noimg img.ph{display:none}
+.bag .pack{width:104px;height:128px;border-radius:12px 12px 8px 8px;background:var(--bc);position:relative;transform:translateY(14px) rotate(-3deg);box-shadow:0 10px 18px -10px rgba(0,0,0,.45);display:flex;flex-direction:column;justify-content:space-between;padding:12px 10px 10px;color:#fff}
+.bag .pack::before{content:"";position:absolute;left:0;right:0;top:0;height:14px;border-radius:12px 12px 0 0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.25) 0 3px,transparent 3px 7px)}
+.bag .pack .bn{font-family:var(--f-display);font-weight:800;font-size:13px;line-height:1.05;margin-top:6px;text-shadow:0 1px 0 rgba(0,0,0,.15)}
+.bag .pack .kg{font-family:var(--f-num);font-weight:700;font-size:22px;line-height:1}
+.bag .pack .kg small{font-size:11px;margin-left:2px}
+.bag .pack.can{width:96px;height:96px;border-radius:50%/18%;transform:translateY(10px)}
+.bag .pack.can::before{display:none}
+.bag .pet{position:absolute;right:12px;bottom:10px;width:34px;height:34px;color:var(--muted);opacity:.55}
+.badges{position:absolute;left:10px;top:10px;display:flex;flex-direction:column;gap:5px;align-items:flex-start}
+.badge{font-size:11.5px;font-weight:700;border-radius:6px;padding:3px 7px;letter-spacing:.01em}
+.badge.gift{background:var(--sun);color:var(--sun-ink)}
+.badge.rx{background:var(--surface);color:var(--rx);border:1px solid var(--rx)}
+.badge.sale{background:var(--ink);color:var(--bg)}
+.body{padding:14px;display:flex;flex-direction:column;gap:8px;flex:1}
+.brand{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.card h3{font-size:17px;font-weight:700;letter-spacing:-.005em}
+.desc{color:var(--muted);font-size:13.5px;margin:0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.desc.open{-webkit-line-clamp:unset;display:block}
+.more{align-self:flex-start;border:0;background:none;padding:0;color:var(--accent);font-weight:600;font-size:13px;cursor:pointer}
+.pres{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:4px}
+.pres button{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:5px 9px;cursor:pointer;font-family:var(--f-num);font-size:12.5px;font-weight:500}
+.pres button[aria-pressed="true"]{border-color:var(--head);background:var(--head);color:#FFFFFF}
+.pres button .gdot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--sun);margin-left:5px;vertical-align:1px}
+.buy{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:10px}
+.price{font-family:var(--f-num);font-weight:700;font-size:19px;line-height:1.1}
+.price s{display:block;font-size:11.5px;font-weight:500;color:var(--muted)}
+.perkg{font-size:11.5px;color:var(--muted);font-family:var(--f-num)}
+.giftline{font-size:12px;color:var(--ink);background:color-mix(in srgb,var(--sun) 28%,transparent);border-radius:6px;padding:3px 7px;align-self:flex-start}
+.add{border:0;background:var(--accent);color:var(--accent-ink);border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;white-space:nowrap}
+.add.done{background:var(--ok)}
+.empty{padding:40px 0;text-align:center;color:var(--muted)}
+
+/* info */
+.info{background:var(--head);color:var(--head-ink)}
+.info h2{color:var(--sun)}
+.info p,.info li,.info td{color:#DADCF5!important}
+.info b{color:#FFFFFF}
+.info .hours td{border-bottom-color:var(--head-soft)}
+.info .copy{background:var(--head-soft);border-color:var(--head-soft);color:#FFFFFF}
+.info .ig{color:var(--sun)}
+.info .wrap{padding-block:36px 48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px}
+.info h2{font-size:20px;margin-bottom:10px}
+.info p,.info li{color:var(--muted);font-size:14.5px}
+.info ol{padding-left:20px;margin:0;display:grid;gap:6px}
+.hours{width:100%;border-collapse:collapse;font-size:14px}
+.hours td{padding:6px 0;border-bottom:1px dashed var(--line)}
+.hours td:last-child{text-align:right;font-family:var(--f-num);font-size:13px}
+.contact{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.copy{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:6px 10px;font-weight:600;cursor:pointer;font-size:13px}
+.ig{color:var(--accent);font-weight:700}
+footer{color:#B4B8DE;background:#0B0E3A;font-size:12.5px;text-align:center;padding-block:18px}
+
+/* cart drawer */
+.scrim{position:fixed;inset:0;background:rgba(10,20,14,.45);z-index:40}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--surface);z-index:41;display:flex;flex-direction:column;box-shadow:-20px 0 40px -20px rgba(0,0,0,.35);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-right:env(safe-area-inset-right,0px);transform:translateX(0);transition:transform .25s ease}
+.drawer[hidden]{display:flex!important;transform:translateX(105%);visibility:hidden}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line)}
+.dh h2{font-size:22px}
+.x{border:0;background:var(--sunk);border-radius:999px;width:36px;height:36px;cursor:pointer;font-size:18px}
+.items{flex:1;overflow:auto;padding:8px 18px}
+.it{display:grid;grid-template-columns:1fr auto;gap:4px 10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.it .n{font-weight:600;font-size:14px;min-width:0}
+.it .p{color:var(--muted);font-size:12.5px}
+.qty{display:flex;align-items:center;gap:6px;justify-self:end}
+.qty button{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:var(--bg);cursor:pointer;font-weight:700}
+.it .sub{grid-column:2;justify-self:end;font-family:var(--f-num);font-weight:700;font-size:14px}
+.checkout{border-top:1px solid var(--line);padding:14px 18px;display:grid;gap:10px;background:var(--bg)}
+.total{display:flex;justify-content:space-between;align-items:baseline;font-weight:700}
+.total .num{font-size:22px}
+.field{display:grid;gap:4px}
+.field label{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.field input,.field select,.field textarea{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:9px 11px;width:100%}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.send{display:flex;justify-content:center;align-items:center;gap:8px;background:#128C4A;color:#fff;text-decoration:none;font-weight:800;border-radius:12px;padding:14px;font-size:16px}
+.send[aria-disabled="true"]{opacity:.45;pointer-events:none}
+.fine{font-size:12px;color:var(--muted);margin:0}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-weight:600;z-index:50;font-size:14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#inicio" aria-label="BravoPet, inicio">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="var(--sun)"/><g fill="#161A5E"><ellipse cx="16" cy="20" rx="6" ry="5"/><circle cx="9" cy="13" r="2.6"/><circle cx="23" cy="13" r="2.6"/><circle cx="13" cy="8.5" r="2.4"/><circle cx="19" cy="8.5" r="2.4"/></g></svg>
+      <span>BravoPet<br><small>Tucumán</small></span>
+    </a>
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Buscá marca, raza o necesidad (ej: urinario, cordero)" aria-label="Buscar productos">
+    </div>
+    <button class="cartbtn" id="openCart" type="button" aria-label="Ver pedido">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6"/><circle cx="10" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/></svg>
+      <span class="lbl">Mi pedido</span><span class="count num" id="count">0</span>
+    </button>
+  </div>
+</header>
+
+<section class="hero" id="inicio">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>El alimento de tu perro y tu gato, <em>en tu puerta</em>.</h1>
+      <p class="lead">Más de 140 alimentos secos, húmedos y dietas veterinarias de las mejores marcas. Elegí la bolsa, armá el pedido y lo confirmamos por WhatsApp.</p>
+    </div>
+    <ul class="promises">
+      <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg></i><div><b>Envío gratis</b><span>Te lo llevamos a tu casa en Tucumán.</span></div></li>
+      <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg></i><div><b>Te avisamos antes de que se termine</b><span>Llevamos la cuenta de tu bolsa por vos.</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<div class="filters">
+  <div class="wrap">
+    <div class="row2">
+      <div class="animal" role="group" aria-label="Animal">
+        <button class="seg" type="button" data-animal="all" aria-pressed="true">Todo</button>
+        <button class="seg" type="button" data-animal="perro" aria-pressed="false">🐶 Perros</button>
+        <button class="seg" type="button" data-animal="gato" aria-pressed="false">🐱 Gatos</button>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <select class="brandsel" id="brand" aria-label="Filtrar por marca"><option value="">Todas las marcas</option></select>
+        <span class="resultcount" id="rc"></span>
+      </div>
+    </div>
+    <div class="cats" id="cats" role="group" aria-label="Categorías"></div>
+  </div>
+</div>
+
+<main>
+  <div class="wrap" id="catalog"></div>
+</main>
+
+<section class="info" id="info">
+  <div class="wrap">
+    <div>
+      <h2>Cómo hacer tu pedido</h2>
+      <ol>
+        <li>Elegí el producto y el tamaño de la bolsa.</li>
+        <li>Abrí <b>Mi pedido</b>, completá tu nombre y dirección.</li>
+        <li>Tocá <b>Enviar por WhatsApp</b>: el pedido se escribe solo.</li>
+        <li>Te confirmamos stock, total y horario de entrega.</li>
+      </ol>
+    </div>
+    <div>
+      <h2>Horarios</h2>
+      <table class="hours" aria-label="Horarios de atención">
+        <tr><td>Lunes a sábado</td><td>9:00 a 21:00</td></tr>
+        <tr><td>Domingo</td><td>Cerrado</td></tr>
+      </table>
+      <p>Si escribís fuera de horario, te respondemos al día siguiente a primera hora.</p>
+    </div>
+    <div>
+      <h2>Pagos y contacto</h2>
+      <p>Efectivo, transferencia o Mercado Pago. Los precios se confirman al tomar el pedido.</p>
+      <div class="contact">
+        <span>WhatsApp <b class="num" id="phoneTxt">+54 9 381 588-9769</b></span>
+        <button class="copy" id="copyPhone" type="button">Copiar</button>
+      </div>
+      <p style="margin-top:10px"><a class="ig" href="https://instagram.com/bravopet.tuc" target="_blank" rel="noopener">Instagram @bravopet.tuc</a></p>
+    </div>
+  </div>
+</section>
+<footer><div class="wrap">BravoPet · San Miguel de Tucumán y Yerba Buena · Precios actualizados al 30/10/2026</div></footer>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" hidden aria-label="Mi pedido">
+  <div class="dh"><h2>Mi pedido</h2><button class="x" id="closeCart" type="button" aria-label="Cerrar">✕</button></div>
+  <div class="items" id="items"></div>
+  <form class="checkout" id="checkout" novalidate>
+    <div class="total"><span>Total estimado</span><span class="num" id="total">$0</span></div>
+    <div class="two">
+      <div class="field"><label for="cName">Nombre</label><input id="cName" autocomplete="name" placeholder="Tu nombre"></div>
+      <div class="field"><label for="cPay">Pago</label><select id="cPay"><option>Efectivo</option><option>Transferencia</option><option>Mercado Pago</option></select></div>
+    </div>
+    <div class="field"><label for="cAddr">Dirección y barrio</label><input id="cAddr" autocomplete="street-address" placeholder="Calle, número, barrio"></div>
+    <div class="field"><label for="cNote">Nota (opcional)</label><input id="cNote" placeholder="Ej: tocar timbre 2, entregar a la tarde"></div>
+    <a class="send" id="send" href="#" target="_blank" rel="noopener" aria-disabled="true">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.4.6-.3.4c.1.2.6 1 1.3 1.6.9.8 1.6 1 1.9 1.2.2.1.4.1.5-.1l.7-.9c.2-.2.4-.2.6-.1l1.9.9c.2.1.4.2.4.3.1.1.1.7-.1 1.3z"/></svg>
+      Enviar por WhatsApp
+    </a>
+    <p class="fine">Se abre WhatsApp con tu pedido escrito. Si no se abre, escribinos al +54 9 381 588-9769.</p>
+  </form>
+</aside>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const PHONE = "5493815889769";
+const CATS = {
+  pc:{t:"Perros Cachorros",a:"perro"}, pa:{t:"Perros Adultos y Senior",a:"perro"}, hp:{t:"Alimentos Húmedos Perros",a:"perro"},
+  gc:{t:"Gatos Cachorros",a:"gato"}, ga:{t:"Gatos Adultos y Senior",a:"gato"}, hg:{t:"Alimentos Húmedos Gatos",a:"gato"},
+  ar:{t:"Piedras y Arenas Sanitarias",a:"gato"}, vp:{t:"Dietas Veterinarias Holliday – Perros",a:"perro"}, vg:{t:"Dietas Veterinarias Holliday – Gatos",a:"gato"}
+};
+const BRANDS = {
+  "Royal Canin":"#B3262E","Nutrique":"#2C3E50","Fawna":"#2E7D6B","Therapy":"#5B4B8A","Balanced Natural Recipe":"#6B8E23",
+  "Balanced":"#C0392B","Old Prince":"#1F3A68","Agility":"#D35400","Premium":"#8E1B3A","Complete":"#0E6BA8","Company":"#4E5D6C",
+  "Belcan":"#A0522D","Belcat":"#7D4E9E","Holliday":"#127C82","Michi Feliz":"#C08A00","Arena":"#6D7B70"
+};
+const RX = "Requiere indicación veterinaria.";
+/* [categoría, marca, nombre, descripción, presentaciones "peso:precio[:regalo 1|2][:precio anterior]" separadas por coma, rx] */
+const D = [
+["pc","Royal Canin","Royal Canin Mini Puppy – Perro Cachorro Raza Pequeña","Para cachorros de talla pequeña (peso adulto menor a 10 kg), de 2 a 10 meses. Ayuda a reforzar sus defensas naturales y favorece la salud digestiva.","1:25900,3:49000:1"],
+["pc","Royal Canin","Royal Canin Medium Puppy – Perro Cachorro Raza Mediana","Para cachorros de talla mediana (peso adulto de 11 a 25 kg), de 2 a 12 meses. Favorece la seguridad digestiva y ayuda a reforzar sus defensas naturales.","3:49000"],
+["pc","Nutrique","Nutrique Toy & Mini Puppy – Perro Cachorro Raza Toy y Mini","Para cachorros de talla toy y mini, de 2 a 10 meses. El 82% de su proteína es de origen animal (pavo y huevo).","3:50000:1"],
+["pc","Nutrique","Nutrique Medium Puppy – Perro Cachorro Raza Mediana","Para cachorros de talla mediana, de 2 a 12 meses. El 80% de su proteína es de origen animal (pavo y cerdo).","3:50000,12:112000:2"],
+["pc","Nutrique","Nutrique Large Puppy – Perro Cachorro Raza Grande","Para cachorros de talla grande, de 2 a 15 meses. El 73% de su proteína es de origen animal (pavo y cerdo).","15:145000:1"],
+["pc","Fawna","Fawna – Perro Cachorro Mordida Pequeña","Para cachorros de raza pequeña. Aporta DHA para el desarrollo cognitivo y prebióticos y probióticos naturales que favorecen la flora intestinal.","3:36500,7.5:72000:1"],
+["pc","Fawna","Fawna – Perro Cachorro Mordida Mediana y Grande","Para cachorros de raza mediana y grande. Aporta DHA para el desarrollo cognitivo y prebióticos y probióticos naturales que favorecen la flora intestinal.","3:36500,7.5:73000,15:120000:1"],
+["pc","Balanced","Balanced – Perro Cachorro Raza Pequeña","Programa Óptimo Crecimiento, para cachorros de raza pequeña hasta los 12 meses.","3:28500,7.5:57000"],
+["pc","Balanced","Balanced – Perro Cachorro Raza Mediana","Programa Óptimo Crecimiento, para cachorros de raza mediana hasta los 12 meses.","3:27500,12:68000:1,20:108000:2"],
+["pc","Balanced","Balanced – Perro Cachorro Raza Grande","Programa Óptimo Crecimiento, para cachorros de raza grande hasta los 18 meses.","3:27500,15:81000,20:108000:2"],
+["pc","Old Prince","Old Prince Proteínas Noveles – Perro Cachorro Cordero y Arroz","Para cachorros de todas las razas. Con cordero como proteína principal y arroz integral; aporta omega 3 y 6, prebióticos y glucosamina y condroitina.","3:28700,7.5:56800:1,15:102500:1"],
+["pc","Old Prince","Old Prince Equilibrium – Perro Cachorro Raza Pequeña Pollo y Arroz","Para cachorros de raza pequeña. Con pollo, omega 3 y 6, prebióticos y glucosamina y condroitina para huesos y articulaciones.","3:20600:1,7.5:42400:1"],
+["pc","Old Prince","Old Prince Equilibrium – Perro Cachorro Raza Mediana y Grande Pollo y Arroz","Para cachorros de raza mediana y grande. Con pollo, omega 3 y 6, prebióticos y glucosamina y condroitina para huesos y articulaciones.","3:22000:1,7.5:43500:1,15:74700:1"],
+["pc","Old Prince","Old Prince Premium – Perro Cachorro Pollo y Arroz","Para cachorros en crecimiento. Con proteínas de pollo y carne, omega 3 y prebióticos que favorecen la digestión.","3:17000:1,15:58500:1"],
+["pc","Agility","Agility – Perro Cachorro Todas las Razas","Alimento completo para cachorros de todas las razas, sabor mix.","3:22800"],
+["pc","Premium","Premium – Perro Cachorro","Para cachorros hasta el año. Ayuda a fortalecer las defensas naturales y al desarrollo muscular; heces firmes y pelaje brillante.","15:54500,20:68000:1"],
+["pc","Complete","Complete – Perro Cachorro Raza Pequeña","Contribuye al desarrollo cerebral, fortalece las defensas y brinda energía para crecer.","3:19800,7.5:36100,20:75000:1"],
+["pc","Complete","Complete – Perro Cachorro Raza Mediana y Grande","Contribuye al desarrollo cerebral, fortalece las defensas y favorece el crecimiento.","3:19000,20:69000:1"],
+["pc","Belcan","Belcan Junior – Perro Cachorro","Para cachorros hasta el año. Sabor natural a pollo, con calcio y fósforo.","1.5:7600,3:10700,15:33500:1"],
+
+["pa","Royal Canin","Royal Canin Mini Adult – Perro Adulto Raza Pequeña","Para perros de talla pequeña (hasta 10 kg), de 10 meses a 8 años. Ayuda a mantener un peso saludable y una piel y pelaje sanos; ideal para paladares exigentes.","1:23000,3:58000:1"],
+["pa","Royal Canin","Royal Canin Medium Adult – Perro Adulto Raza Mediana","Para perros de talla mediana (11 a 25 kg), de 12 meses a 7 años. Ayuda a sostener las defensas naturales, la buena digestión y una piel saludable.","3:44500"],
+["pa","Royal Canin","Royal Canin French Bulldog Adult – Perro Adulto Bulldog Francés","Para Bulldog Francés desde los 12 meses. Ayuda a mantener la masa muscular, refuerza la barrera de la piel y reduce el olor de las heces.","3:59900"],
+["pa","Royal Canin","Royal Canin Mini Adult 8+ – Perro Senior Raza Pequeña","Para perros senior de raza mini, desde los 8 años. Nutrición equilibrada para mantener su salud y actividad.","3:59000"],
+["pa","Royal Canin","Royal Canin Urinary S/O – Perro Adulto Dieta Veterinaria","Ayuda a disolver cálculos de estruvita y a reducir la reaparición de cálculos de estruvita y oxalato de calcio.","1.5:36000",1],
+["pa","Royal Canin","Royal Canin Hypoallergenic – Perro Adulto Dieta Veterinaria","Para perros adultos con intolerancias a ingredientes y nutrientes, con fuentes de proteína y carbohidratos seleccionadas.","2:49500",1],
+["pa","Nutrique","Nutrique Toy & Mini Young Adult – Perro Adulto Raza Toy y Mini","De 10 meses a 7 años. El 79% de su proteína es de origen animal (pavo y cerdo).","3:48200,7.5:95000:2"],
+["pa","Nutrique","Nutrique Medium Young Adult – Perro Adulto Raza Mediana","De 12 meses a 7 años. El 75% de su proteína es de origen animal (pavo y cerdo).","3:48200:1,12:105000:2"],
+["pa","Nutrique","Nutrique Large Young Adult – Perro Adulto Raza Grande","De 15 meses a 6 años. El 72% de su proteína es de origen animal (pavo, huevo y cerdo).","3:48200:1,15:130000:2"],
+["pa","Fawna","Fawna – Perro Adulto Mordida Pequeña","Proteína de alta calidad con prebióticos y probióticos naturales que favorecen la flora intestinal y las defensas.","3:34800,7.5:67900:1"],
+["pa","Fawna","Fawna – Perro Adulto Mordida Mediana y Grande","Proteína de alta calidad con prebióticos y probióticos naturales que favorecen la flora intestinal y las defensas.","3:31500,15:115000:1"],
+["pa","Therapy","Therapy Cardiac Health – Perro Dieta Veterinaria","Para perros con insuficiencia cardíaca, miocardiopatía, hipertensión o que necesitan bajo sodio.","2:35000,10:105000:1",1],
+["pa","Therapy","Therapy Gastrointestinal Aid – Perro Dieta Veterinaria","Para perros con trastornos gastrointestinales.","2:29500,10:90000:1",1],
+["pa","Therapy","Therapy Hypoallergenic Care – Perro Dieta Veterinaria","Para alergias e intolerancias alimentarias con signos digestivos o en la piel, y enfermedad inflamatoria intestinal. Puede usarse como dieta de exclusión.","2:38700,10:117000:1",1],
+["pa","Therapy","Therapy Mobility Aid – Perro Dieta Veterinaria","Para perros con enfermedades osteoarticulares, artritis y artrosis.","2:33500,15:140000:1",1],
+["pa","Therapy","Therapy Obesity Management – Perro Adulto Dieta Veterinaria","Para perros adultos con sobrepeso, obesidad o hiperlipidemia.","2:32500,15:145000:1",1],
+["pa","Therapy","Therapy Renal Care – Perro Adulto Dieta Veterinaria","Para perros adultos con enfermedad renal crónica, enfermedades que requieren bajo sodio o encefalopatía hepática.","2:29000,10:95000:1",1],
+["pa","Balanced Natural Recipe","Balanced Natural Recipe – Perro Adulto Salmón Rosado","Receta con una sola proteína que ayuda a reducir las reacciones alérgicas. Con omega 3 para la piel y la digestión.","3:27500,15:85000:2"],
+["pa","Balanced Natural Recipe","Balanced Natural Recipe – Perro Adulto Cerdo","Receta con una sola proteína que ayuda a reducir las reacciones alérgicas. Con omega 3 para la piel y la digestión.","3:29500,15:90000:2"],
+["pa","Balanced Natural Recipe","Balanced Natural Recipe – Perro Adulto Cordero","Receta con una sola proteína que ayuda a reducir las reacciones alérgicas. Con omega 3 para la piel y la digestión.","3:29500,15:90000:2"],
+["pa","Balanced Natural Recipe","Balanced Natural Recipe – Perro Adulto Pollo","Receta con una sola proteína que ayuda a reducir las reacciones alérgicas. Con omega 3 para la piel y la digestión.","3:29500,15:90000:2"],
+["pa","Balanced Natural Recipe","Balanced Natural Recipe – Perro Adulto Carne Argentina","Receta con una sola proteína que ayuda a reducir las reacciones alérgicas. Proteína de alto valor biológico para el mantenimiento muscular.","3:29500,15:90000:2"],
+["pa","Balanced","Balanced – Perro Adulto Raza Pequeña","Programa Equilibrio Saludable, para perros de raza pequeña de 12 meses a 7 años.","3:25000,7.5:49500,15:74500:2"],
+["pa","Balanced","Balanced – Perro Adulto Raza Mediana","Programa Equilibrio Saludable, para perros de raza mediana de 12 meses a 7 años.","3:26000,12:61000:1,20:89800:2"],
+["pa","Balanced","Balanced – Perro Adulto Raza Grande","Programa Equilibrio Saludable, para perros de raza grande de 18 meses a 7 años.","3:26000,15:73000:1,20:89800:2"],
+["pa","Balanced","Balanced – Perro Adulto Raza Gigante","Programa Equilibrio Saludable, para perros de raza gigante de 18-24 meses a 7 años.","20:105000"],
+["pa","Balanced","Balanced Control de Peso – Perro All Ages","Programa Control de Peso, para perros adultos con sobrepeso o con tendencia a tenerlo.","3:29000,12:71000:1,20:110000:2"],
+["pa","Balanced","Balanced – Perro Senior Raza Pequeña","Programa Calidad de Vida, para perros de raza pequeña mayores de 7 años.","3:28500,7.5:56500"],
+["pa","Balanced","Balanced – Perro Senior Raza Mediana","Programa Calidad de Vida, para perros de raza mediana mayores de 7 años.","3:27500,12:65000:2"],
+["pa","Balanced","Balanced – Perro Senior Raza Grande","Programa Calidad de Vida, para perros de raza grande mayores de 7 años.","3:27500,15:80000:2"],
+["pa","Old Prince","Old Prince Premium – Perro Adulto Pollo y Carne","Con proteínas de pollo y carne, omega 3 para piel y pelo y prebióticos para la digestión.","3:15600,20:68500:2"],
+["pa","Old Prince","Old Prince Premium – Perro Adulto Cordero y Arroz","Con cordero, buena opción para digestiones sensibles. Aporta omega 3, prebióticos y glucosamina y condroitina.","3:21000,15:80500:2"],
+["pa","Old Prince","Old Prince Premium – Perro Adulto Raza Pequeña Cordero y Arroz","Para razas pequeñas, con cordero y arroz. Aporta omega 3, glucosamina y condroitina y prebióticos.","3:21500,15:82500"],
+["pa","Old Prince","Old Prince Proteínas Noveles – Perro Adulto Raza Pequeña Cordero y Arroz","Para perros pequeños con sensibilidad alimentaria. Con cordero, omega 3 y 6, prebióticos y glucosamina y condroitina.","3:28700,7.5:56800:1,15:95500:2"],
+["pa","Old Prince","Old Prince Proteínas Noveles – Perro Adulto Raza Mediana y Grande Cordero y Arroz","Para perros medianos y grandes con digestión sensible. Con cordero y arroz integral, omega 3 y 6, prebióticos y glucosamina y condroitina.","3:28000,7.5:51600:1,15:86500:1"],
+["pa","Old Prince","Old Prince Proteínas Noveles – Perro Senior Todas las Razas Cordero y Arroz","Para perros senior de todas las razas, con cordero y arroz integral.","u:98600"],
+["pa","Old Prince","Old Prince Equilibrium – Perro Adulto Raza Pequeña Pollo y Arroz","Con pollo, omega 3 y 6, prebióticos y glucosamina y condroitina.","3:21000:1,7.5:41100:1,15:74700:2"],
+["pa","Old Prince","Old Prince Equilibrium – Perro Adulto Raza Mediana y Grande Pollo y Arroz","Con pollo, omega 3 y 6, prebióticos y glucosamina y condroitina.","3:20300:1,7.5:39500:1,15:66800:2,20:83500:2"],
+["pa","Old Prince","Old Prince Equilibrium – Perro Senior Pollo y Arroz","Para perros mayores. Con glucosamina y condroitina, omega 3 y 6, antioxidantes y prebióticos.","3:21000,15:77900"],
+["pa","Agility","Agility – Perro Adulto Raza Pequeña","Con tecnología Active Health para mantener energía y vitalidad.","1.5:13800"],
+["pa","Agility","Agility+ – Perro Adulto Todas las Razas Cordero","Con proteína de cordero. Ayuda a disminuir síntomas de intolerancia alimentaria y protege huesos y articulaciones.","15:81800"],
+["pa","Agility","Agility – Perro Adulto Raza Mediana y Grande","Para perros medianos y grandes, con tecnología Active Health.","20:78300"],
+["pa","Premium","Premium – Perro Adulto","Gran digestibilidad, ayuda a fortalecer las defensas, piel sana y heces firmes. La bolsa de 24 kg es el Safety Pack.","20:59500:1,24:74000"],
+["pa","Premium","Premium – Perro Adulto Raza Pequeña","Huesos y músculos fuertes, equilibrio de la flora intestinal, control de sarro y menos olor de heces.","7.5:26700,20:59500:1"],
+["pa","Premium","Premium – Perro Adulto Raza Pequeña Cordero","Para razas pequeñas, con o sin sensibilidad en piel o digestión. 26% de proteína, sin soja, trigo ni colorantes.","7.5:31200,20:69000:1"],
+["pa","Premium","Premium – Perro Adulto Cordero","Con o sin sensibilidad en piel o digestión. 26% de proteína, sin soja, trigo ni colorantes.","7.5:31200,20:69000:2"],
+["pa","Premium","Premium Control de Peso – Perro Adulto","Para perros con sobrepeso, castrados o con tendencia a engordar. Con fibras naturales que dan saciedad.","7.5:28500,20:62500:2"],
+["pa","Complete","Complete – Perro Adulto Raza Pequeña","Protege el sistema digestivo, cuida la boca y mantiene piel sana y pelaje brillante.","3:19000,7.5:34500,20:69000:2"],
+["pa","Complete","Complete – Perro Adulto Raza Mediana y Grande","Protege el sistema digestivo, cuida las articulaciones y mantiene piel sana y pelaje brillante.","3:17000,20:66000:2"],
+["pa","Complete","Complete Control de Peso – Perro Adulto","Fórmula baja en calorías que ayuda a reducir la grasa corporal y cuidar las articulaciones.","3:19600,20:72000:2"],
+["pa","Complete","Complete – Perro Senior Raza Pequeña","Para perros pequeños desde los 7 años; ayuda a prevenir los efectos del envejecimiento.","3:19600,7.5:35600"],
+["pa","Complete","Complete – Perro Senior Todas las Razas","Contribuye a la protección cardíaca, renal y articular, con complejo antiage.","3:19600,20:72000"],
+["pa","Company","Company – Perro Adulto Todas las Razas","Alto aporte de proteínas y alta digestibilidad; controla el olor y la consistencia de las heces.","20:48500"],
+["pa","Belcan","Belcan – Perro Adulto","Para perros desde los 12 meses. Sabor natural a pollo, alimento equilibrado para un pelo brillante.","1.5:7800::8500,22:40000:2"],
+
+["hp","Royal Canin","Royal Canin Mini Adult – Perro Adulto Raza Pequeña (húmedo)","Alimento húmedo para perros adultos de raza pequeña, con energía adaptada a su actividad diaria.","u:2500"],
+["hp","Balanced Natural Recipe","Balanced Natural Recipe Filetes – Perro Cachorro Cordero","Filetes a base de cordero que ayudan a reducir las reacciones alérgicas, con omega 3 para la piel y la digestión.","100g:2800,340g:8800"],
+["hp","Balanced Natural Recipe","Balanced Natural Recipe Filetes – Perro Cachorro Carne","Filetes de carne argentina seleccionada, con proteína de alto valor biológico para el desarrollo muscular.","340g:8800"],
+["hp","Balanced Natural Recipe","Balanced Natural Recipe Filetes – Perro Adulto Carne","Filetes de carne argentina seleccionada, con proteína de alto valor biológico para el mantenimiento muscular.","100g:2800,340g:8800"],
+["hp","Balanced Natural Recipe","Balanced Natural Recipe Soft Cream – Perro Todas las Edades","Suplemento alimenticio cremoso para perros de todas las edades.","u:5300"],
+["hp","Complete","Complete Trocitos en Salsa – Perro Adulto Carne","Trocitos en salsa con alto aporte de proteína animal, para piel saludable y pelaje brillante.","100g:1500,340g:3900"],
+["hp","Complete","Complete Trocitos en Salsa – Perro Cachorro","Trocitos en salsa con alto aporte de proteína animal, para piel saludable y pelaje brillante.","100g:1500,340g:3900"],
+
+["gc","Nutrique","Nutrique Baby Cat & Kitten – Gato Cachorro","Desde el destete hasta el año. El 82% de su proteína es de origen animal (pavo, huevo y cerdo).","2:52000:1,7.5:130000:1"],
+["gc","Fawna","Fawna Kitten – Gato Cachorro","Con prebióticos y probióticos naturales, y DHA de aceite de salmón para el desarrollo cognitivo y la visión.","1:19400,3:55300:1"],
+["gc","Balanced","Balanced Kitten – Gato Cachorro","Programa Óptimo Crecimiento, para gatitos desde el destete hasta los 12 meses.","2:34000,7.5:89500:1"],
+["gc","Old Prince","Old Prince Proteínas Noveles – Gato Cachorro Cordero y Arroz","Con cordero, taurina para corazón y visión, omega 3 y 6 y prebióticos.","1:19400,3:45500:1"],
+["gc","Old Prince","Old Prince Equilibrium – Gato Cachorro Pollo y Arroz","Para gatitos en crecimiento, con pollo como proteína principal.","1:14700:1,3:31800:1"],
+["gc","Old Prince","Old Prince Premium – Gato Cachorro Pollo y Arroz","Con proteínas de pollo, pescado y carne, taurina y omega 3 y 6.","3:27200:1,7.5:50000:1"],
+["gc","Agility","Agility Kitten – Gato Cachorro","Alimento completo para gatitos desde las 3 semanas hasta los 12 meses.","1.5:19900"],
+["gc","Premium","Premium – Gato Cachorro","Hasta los 12 meses. Con huevo y leche, ayuda a fortalecer las defensas y reduce las bolas de pelo.","2:18000,7.5:45600"],
+["gc","Complete","Complete Kitten – Gato Cachorro","Contribuye al desarrollo cerebral, fortalece las defensas y brinda energía.","1.5:17000,7.5:47000,15:80200:1"],
+
+["ga","Royal Canin","Royal Canin Fit – Gato Adulto","De 1 a 7 años, con peso ideal, actividad moderada y acceso al exterior. Aporte calórico adaptado para mantener su peso.","400g:11300,1.5:45000:1"],
+["ga","Royal Canin","Royal Canin Performance – Gato Adulto","Para gatos adultos con un estilo de vida activo.","1.5:28000"],
+["ga","Royal Canin","Royal Canin Veterinary Care – Gato Adulto Castrado","Para gatos adultos castrados; ayuda a controlar el peso.","1.5:45000"],
+["ga","Royal Canin","Royal Canin Urinary S/O – Gato Adulto Dieta Veterinaria","Para gatos con problemas urinarios; ayuda a prevenir la formación de cristales.","1.5:49500",1],
+["ga","Nutrique","Nutrique Young Adult Healthy Maintenance – Gato Adulto","Para gatos en peso ideal, de 12 meses a 7 años. El 80% de su proteína es de origen animal (pavo y cerdo).","2:48500:1,7.5:120000:1"],
+["ga","Nutrique","Nutrique Young Adult Sterilised – Gato Adulto Castrado","Para gatos castrados con sobrepeso o tendencia a tenerlo, de 12 meses a 7 años. 80% de proteína animal.","2:50000:1,7.5:125000:1"],
+["ga","Nutrique","Nutrique Urinary Care – Gato Adulto","Para gatos con predisposición a trastornos urinarios. El 83% de su proteína es de origen animal.","2:50000,7.5:130000:1"],
+["ga","Fawna","Fawna – Gato Adulto","Proteína de alta calidad con prebióticos y probióticos para la digestión, y fibras que ayudan a eliminar bolas de pelo.","3:49800:1,7.5:95500:1"],
+["ga","Fawna","Fawna Urinary – Gato Adulto","Mantiene un pH urinario controlado y disminuye la probabilidad de cálculos.","3:59800:1,7.5:109500:1"],
+["ga","Therapy","Therapy Gastrointestinal Aid – Gato Dieta Veterinaria","Para gatos con trastornos gastrointestinales.","2:41700",1],
+["ga","Therapy","Therapy Hypoallergenic Care – Gato Adulto Dieta Veterinaria","Para gatos con alergia e intolerancia alimentaria o enfermedad inflamatoria intestinal.","2:51000",1],
+["ga","Therapy","Therapy Obesity Management – Gato Adulto Dieta Veterinaria","Para gatos adultos con sobrepeso, obesidad o hiperlipidemia.","u:37000",1],
+["ga","Therapy","Therapy Renal Care – Gato Adulto Dieta Veterinaria","Para gatos con enfermedad renal crónica, enfermedades que requieren bajo sodio o encefalopatía hepática.","2:40000",1],
+["ga","Therapy","Therapy Urinary Health – Gato Dieta Veterinaria","Para gatos con enfermedad de las vías urinarias bajas (FLUTD) y cálculos de estruvita.","2:42500,7.5:102200:1",1],
+["ga","Balanced Natural Recipe","Balanced Natural Recipe – Gato Adulto Cordero Patagónico","Receta con una sola proteína que ayuda a reducir las reacciones alérgicas, con omega 3 para la piel y la digestión.","3:38000,7.5:75000:1,15:135000:1"],
+["ga","Balanced Natural Recipe","Balanced Natural Recipe – Gato Adulto Salmón Rosado","Receta con una sola proteína que ayuda a reducir las reacciones alérgicas, con omega 3 para la piel y la digestión.","3:38000,7.5:75000:1,15:135000:1"],
+["ga","Balanced Natural Recipe","Balanced Natural Recipe – Gato Adulto Pollo","Pollo de gran digestibilidad que contribuye al desarrollo de la masa muscular, con omega 3.","3:38000,7.5:75000:1,15:135000:1"],
+["ga","Balanced Natural Recipe","Balanced Natural Recipe – Gato Adulto Merluza","Receta con una sola proteína que ayuda a reducir las reacciones alérgicas, con omega 3 para la piel y la digestión.","3:38000,7.5:75000:1,15:135000:1"],
+["ga","Balanced Natural Recipe","Balanced Natural Recipe – Gato Adulto Carne Argentina","Receta con una sola proteína que ayuda a reducir las reacciones alérgicas; proteína de alto valor biológico.","3:38000,7.5:75000:1,15:135000:1"],
+["ga","Balanced Natural Recipe","Balanced Natural Recipe – Gato Adulto Trucha Patagónica","Receta con una sola proteína que ayuda a reducir las reacciones alérgicas, con omega 3 para la piel y la digestión.","3:38000,7.5:75000:1,15:135000:1"],
+["ga","Balanced","Balanced – Gato Adulto","Programa Equilibrio Saludable, para gatos de 1 a 7 años.","2:29000,7.5:63800,15:130000:1"],
+["ga","Balanced","Balanced Control de Peso – Gato Adulto Castrado","Programa Control de Peso, para gatos castrados, con sobrepeso o tendencia a engordar.","2:34500,7.5:89000:1"],
+["ga","Balanced","Balanced Control de pH – Gato All Ages","Programa Control de pH, para gatos que tuvieron una obstrucción de las vías urinarias.","2:34500,7.5:87000:1"],
+["ga","Balanced","Balanced – Gato Senior","Programa Calidad de Vida, para gatos mayores de 7 años.","2:34500,7.5:80500"],
+["ga","Old Prince","Old Prince Proteínas Noveles – Gato Adulto Cordero y Arroz","Con cordero y arroz integral, taurina, omega 3 y 6, prebióticos y acidificantes urinarios.","1:18000,3:39000:1,7.5:81500:1"],
+["ga","Old Prince","Old Prince Equilibrium Complete Care – Gato Adulto Pollo y Arroz","Con pollo, taurina, omega 3, prebióticos y acidificantes urinarios.","3:29600:1,7.5:64500:1,15:86500"],
+["ga","Old Prince","Old Prince Equilibrium Urinary Care – Gato Adulto Pollo y Arroz","Acidificantes que ayudan a controlar el pH urinario, taurina y omega 3.","3:33500:1,7.5:73500:1"],
+["ga","Old Prince","Old Prince Premium – Gato Adulto Pollo y Arroz","Con proteínas de pollo, pescado y carne, taurina, omega 3 y 6 y acidificantes urinarios.","3:25700:1,7.5:46800:1,15:84500:1"],
+["ga","Old Prince","Old Prince Premium Urinario – Gato Adulto Pollo y Arroz","Acidificantes que ayudan a controlar el pH urinario, taurina y omega 3 y 6.","3:25700,7.5:46800:1"],
+["ga","Agility","Agility – Gato Adulto Sabor Mix","Alimento seco con 34% de proteína bruta, formulado para gatos adultos.","1.5:18600,10:78500"],
+["ga","Agility","Agility+ – Gato Adulto Salmón","Con proteína de salmón; ayuda a una piel sana y al cuidado del tracto urinario.","1.5:20700,10:78300"],
+["ga","Agility","Agility Urinary – Gato Adulto","Ayuda a controlar el pH urinario, reducir la formación de cálculos y mantener sano el tracto urinario.","1.5:19900"],
+["ga","Premium","Premium – Gato Adulto","Ayuda a prevenir trastornos urinarios, con omega 3 y 6, menos bolas de pelo y heces firmes.","2:16500,7.5:43700,15:81000:1,20:102000"],
+["ga","Premium","Premium – Gato Adulto Salmón","Con proteína de salmón, sin soja, trigo ni colorantes. Ayuda a prevenir trastornos urinarios.","7.5:46000"],
+["ga","Premium","Premium Urinary – Gato Adulto","Ayuda a reducir la formación de cálculos urinarios, con 33% de proteína y menos bolas de pelo.","7.5:48000"],
+["ga","Complete","Complete – Gato Adulto","Protege el sistema digestivo y urinario y mantiene piel sana y pelaje brillante.","1.5:17000,7.5:50900,15:85000:1"],
+["ga","Complete","Complete Control de Peso – Gato Adulto Castrado","Fórmula baja en calorías que ayuda a reducir la grasa corporal y cuidar las articulaciones.","1.5:17600,7.5:56600:1"],
+["ga","Complete","Complete Urinary Care – Gato Adulto","Para gatos con predisposición a cálculos urinarios; logra un pH ideal para el sistema urinario.","1.5:17600,7.5:56600:1"],
+["ga","Complete","Complete – Gato Senior","Contribuye a la protección cardíaca, renal y articular, con complejo antiage.","1.5:17600,7.5:56600"],
+["ga","Belcat","Belcat – Gato Adulto","Para gatos desde los 12 meses. Ayuda a un intestino sano y a heces firmes con menos olor.","10:33500"],
+
+["hg","Royal Canin","Royal Canin Instinctive – Gato Adulto (húmedo)","Para gatos adultos en su peso ideal. Contribuye al buen funcionamiento urinario, con aporte calórico moderado.","85g:4000"],
+["hg","Balanced Natural Recipe","Balanced Natural Recipe Filetes – Gato Cachorro Cordero","Filetes de cordero que ayudan a reducir las reacciones alérgicas, con omega 3 para la piel y la digestión.","85g:2800,340g:8800"],
+["hg","Balanced Natural Recipe","Balanced Natural Recipe Filetes – Gato Adulto Cordero","Filetes de cordero que ayudan a reducir las reacciones alérgicas, con omega 3 para la piel y la digestión.","85g:2800,340g:8800"],
+["hg","Balanced Natural Recipe","Balanced Natural Recipe Soft Cream – Gato Cordero","Suplemento alimenticio cremoso para gatos de todas las edades.","56g:6000"],
+["hg","Premium","Premium Trocitos en Salsa – Gato Cachorro Carne","Trocitos de carne en salsa liviana, con vitaminas y minerales para un buen desarrollo.","85g:1700,340g:4800"],
+["hg","Premium","Premium Trocitos en Salsa – Gato Adulto Carne","Trocitos de carne en salsa liviana, con vitaminas y minerales que ayudan a mantener la vitalidad.","85g:1700,340g:4800"],
+["hg","Complete","Complete Trocitos en Salsa – Gato Cachorro","Alto aporte de proteína animal y la energía necesaria para crecer.","85g:1500"],
+["hg","Complete","Complete Trocitos en Salsa – Gato Adulto","Alto aporte de proteína animal, para piel saludable y pelaje brillante.","85g:1500"],
+
+["ar","Michi Feliz","Michi Feliz – Piedras Sanitarias para Gatos","Opción confiable y económica para mantener la higiene de la caja de tu gato.","u:2000"],
+["ar","Arena","Arena Sanitaria Aglomerante Neutra","Bentonita natural que forma grumos firmes, fáciles de retirar. Ayuda a controlar olores y no levanta polvo.","6:11300"],
+
+["vp","Holliday","Holliday MV Gastrointestinal – Perro","Alta digestibilidad, alta energía y bajo residuo, para cachorros y adultos con problemas digestivos.","2:32500,10:112300:1",1],
+["vp","Holliday","Holliday MV Renal – Perro Adulto y Senior","Para perros con enfermedad renal crónica o disfunción hepática. Bajo nivel de fósforo y omega 3.","2:32000,10:124500:1",1],
+["vp","Holliday","Holliday MV Sensibilidad Dietaria – Perro","Para dermatitis, alergias o intolerancias alimentarias. Con proteína de pescado, omega 3 y 6 y zinc.","2:36400,10:151000:1",1],
+["vp","Holliday","Holliday MV Obesidad – Perro","Reduce el aporte calórico sin exceso de fibra, para perros con obesidad o tendencia al sobrepeso.","2:28000,10:105000:1",1],
+["vp","Holliday","Holliday MV Articular – Perro","Para problemas articulares. Con glucosamina, condroitín sulfato, omega 3 y vitamina C.","2:30000,10:114000:1",1],
+["vp","Holliday","Holliday MV Cardíaco – Perro","Para hipertensión o enfermedad cardíaca. Bajo en sodio, con taurina y carnitina.","2:30700,10:101900:1",1],
+["vg","Holliday","Holliday MV Obesidad – Gato","Ayuda a mantener un peso ideal sin exceso de fibra.","2:34000",1],
+["vg","Holliday","Holliday MV Renal – Gato","Para gatos de todas las edades con insuficiencia renal. Bajo nivel de fósforo y omega 3.","2:37500",1],
+["vg","Holliday","Holliday MV Urinario – Gato","Ayuda a prevenir cristales de estruvita u oxalato de calcio en vías urinarias bajas.","2:34500,7.5:107000",1],
+["vg","Holliday","Holliday MV Gastrointestinal – Gato","Alta digestibilidad y bajo residuo, para gatitos y adultos con problemas digestivos.","2:35000",1]
+];
+
+const IMG=["7iARu4xRI2F7cL9umYcOU","QtbsCG-qrL0wcIGj2cN5m","aTN-7bT6oxW4Vmb6q48t_","wkESS0MTDzArc-OCWb51i","7r1uT_PRB2iFdkfeb5W0E","cgBD13v_fJjByKj2_F9f8","ELCs0wODO-Tq8Kn6cP-l_","bRclAtUXacaxO9fgtLj8o","6Qx6wB2xPUj7x9iy8LxF1","fYRJ1r5uluct2B8CppgTK","VQgwtYUz4zwmzcDktuZ-6","9eQRMIJjTfCTNJVbiqAPf","oEaSUwLGjcSvKMxZQLaz3","n1ii-Hv2wMyDVtJWBCEXs","rOo2SDPSQu9-BO53YRvX5","jWqtew5JSa1vlOjiqWIxU","EoQSGVfobPNJ6ykZuR4Xv","sgxtDPzLoGjVK9LjHfnO2","hznBjdPtk5vVx0apeiiAf","h9KhDD5adl4JBOGrsi4et","QzP3EzmVJM1PzQ8VCdw4c","viADqZZ0rsrc3auKCAT8p","5XmO6y-0Rj6hGJ4zIJ3op","qu1UCGY1kYPnKpjLGhhzh","R1HIBjIB4ddMkoSmT7KcR","B7AT5-BZwjL9J8eI83NLS","EkSfjEpHNMuuw8-1j62BC","MhHrBjWX2eDEQAjDg5UB-","a0j1DKDz3A7a1DQFCzD2F","D91j-m6Y6PDsY7LgAkh6o","PI8Q5DI6e2CS9tWb0SNU_","cU5cRyrEUTzAsfy6z4-vk","AQAktM5ELJpp_m-fFPR0h","4ESHBag-1cvP4Jt9U5wMK","56vkjz-qIhJKFewW3sCp5","E1uMOFPlVL3OT376MVURf","lRfINmyi06LnFsnK0U5P0","MGk0zfbL8kl9ltjHEvQXH","4qS3yLEiWMCH3faVm3UHt","mRwdT3fHbuz7pIBIkq_3T","yYIoY9n4J4pP06pdRBL_L","MPOlbMtKiiVae5xpzlyJO","-MfPTuwYKSg1VglgJIJSx","aYAA-HAiNyy9jgAc2JA5Y","UrUMi9BB22evwPTiuf503","E7axhJhycSXJ8kJUyXiBy","Y-aq-z2mW_MPQnrN9IVgQ","nyeUKP7PvUAjycRZciYur","jcX1d5cMhpJ5bKm8nI3wc","FnF97Pu0_xPrprm72EiCT","A4beV-wk4hV1BMlD4hsOT","rIH89Af_9yN8Gc53Z8xpa","E7ClpYtFG_yNl85AnaGQ0","Ctkwfd0lGS9z2yR_7GF84","_P_7NYSIhxucmk3gESXEy","UiPq-Id1Iid9W918dnIZr","H6gYCU58ZevviL07KiU8a","Dm6Y-QPHt5jqtO8cpuulW","MVtIlG8V7RIfP8n4F_3EN","lDaXTk2MzHN0dqnp28CLF","NwlvkmiVbVW7DA9Vta84D","YsVWnJl96qqLML4AwzgKu","Ku6Z19mHmGDL2VrJiLsgN","NWMHXiLHGxbPZWl5MDU0J","5DWuW7q5wf-NFhsVBQSRP","UULpgrNvtP0fPMCLTWgR_","Yvgx3WB9dx9tw_7KkkERF","3kj0rUpWQFP49P14HXgLd","u7k6L4X-U5wlm3HOS_8Ek","ak2tPdDaL0g7Y1Cv93xfI","UAMlFCB_EdLYqtysL705i","WHg4iPXz2w7ZCJyKgQjEs","e7hXjMIxgOQcc3JRPlTy6","1p2lflPQVRAjJa8hQDtWa","usjaI49QJOn0YWBAYFegi","CaYkTWfOhKeaz30XigiYS","-A9vcTP6PlPdaoHtEokyT","cuCD7G2Dq-kQb2DNQ18ML","Ueo3QLI_ZqvA7fw5_5B6q","4zT4HYRJkJMfHpUz5rlt3","GH4JO2JBtj0zVER5E9sIV","_I2b3Ckg1YgxwGlWJBTNN","qgGP6EudEBS_oI_nE772q","JrO3XiTATds3e_Fa7B7Bu","2JJNDKaUSYZCKs_YUl3lX","NsFh0CMhLznNHE1nOGOF3","ts3u57fpXJENu_p-HJ4bx","QDokGe5ISDYEwzPPl4Hu4","uqnrXaDIRaLlgY8C5HMBi","OlY7m5bp3dgWWJQFa6Kcg","KoGndAtgDjY0itGENfuxA","_oGdDxvUstmuZZkkU6Xs3","1huSn4B3vANxvTv7lYoKH","JskJvQO_cByMeJRC1K2Ep","JE06L193bhYWaI89trC9t","-vtph5L080BXPTShtKlfL","KY514htqarGxXxm2sD3U6","-kUd9Rvjwuu_ikloDSIXT","8hqUKNeMkias5rYz85ThX","jeqlSQGGIV9_EDSwkNpxi","5Blt5qW9hyxvbD4Nf-CEK","0SedChPH42FhsWIzD9UoR","MJggADs2_cwNKtMDwOpi_","y_QiDnhPye5su_7pu3TcQ","tU699jlmVXyIOcetO9WTr","hP9XfFRGB0p9QfQjLGDt8","D8d0Evcppo7AJDIDhiv09","cr33CazbsmsIcjR4YmPAV","Pnt28tiDiE8gFIfohc7pI","kYR_77-qv90BXRLsFB9cI","vLmdwZGo_ls31jkX35rlr","2tvERzgOjtfmayBhZP01_","__ldGkW1Y5PtTcM8fEMfe","AZ1XJ3azHOvuA2pWEFlzZ","vGbpNJwLYZ9xWiZ_K83Fj","OL_9nCng33HycfyLrwB-M","j-DN3eClxoSzCsyAfDltr","BmMqhmrVEJfwBrgkaNztg","h4i4tIt_uajZs0g9aiPhw","D3PFHs1LNLezR4Dg_4NXj","p8TtFhmocGObjaIjTiKu7","KivgWc4ifRiwHgbZjkker","bVnEG5t0MFbkUCM0u8o9Z","yeYdA5q4MD8uINHrRSY6Y","Y2cOockV_aIVyu3Jt03RZ","kgdn-_JagVUC_7vEyz15f","rIY3Q3j4M2QLkHGzcM73w","JyNoW17SbHwfb4oVBDf3X","vbI8-bekPHEMSoNwMXgOk","raJU3s1QJEZnpLVQNfL10","GLlQdoHCNL0RtKK62P8_F","e66CjazdeQSEIF9WyOsyC","rd4Uu4LF8dsbsfaEl680z","Clz6QtHfoBYqNwchSJvdO","urnS8v7KXmiHg14bjaSLw","jWBeElVn7pZcel_3Bke2k","ovD2uKm-FjAbUyMRsoCXi","QtL0aM6oEQTvkfvU3ebnL","fcQEYc23LZGaS2XPGrhXB","kiZ3qXbGQI-POyXytkG4Q","Zan0LADiNz-1PzXPXH_87","gh4NrmHscN6oLCawDRYt6","T8fYcn0FJ7C6ON5L7_LbX","ndUbEXU7rMBRLa9dccc4f","9vRCNlxmEiYdqTqwa-Hk2","iR6prLiQDPeb4nDz2_lgT","Dk5jvPZixkMMpKYfMnPYL","5oa9fkaWDKnLWuE-eTC_s","rzrwF84kK0QUl93wbggHU"];
+const IMGBASE="https://cdn.pedix.app/WCrL8bkq1BZaRoJJJ5x9/products/";
+document.addEventListener("error",e=>{if(e.target.classList&&e.target.classList.contains("ph"))e.target.parentNode.classList.add("noimg")},true);
+const fmt = n => "$" + Math.round(n).toLocaleString("es-AR");
+function parseP(s){
+  return s.split(",").map(x=>{
+    const [w,pr,g,old]=x.split(":");
+    let label, kg=null;
+    if(w==="u"){label="Unidad"}
+    else if(w.endsWith("g")){label=w.replace("g"," g")}
+    else{kg=parseFloat(w);label=w.replace(".",",")+" kg"}
+    return {label,kg,price:+pr,gift:+(g||0),old:old?+old:null};
+  });
+}
+const P = D.map((r,i)=>({id:i,cat:r[0],brand:r[1],name:r[2],desc:r[3],pres:parseP(r[4]),rx:!!r[5],animal:CATS[r[0]].a}));
+
+/* state */
+const S={animal:"all",cat:"",brand:"",q:"",sel:{},cart:[]};
+try{const c=JSON.parse(localStorage.getItem("bp_cart")||"[]");if(Array.isArray(c))S.cart=c}catch(e){}
+try{const f=JSON.parse(localStorage.getItem("bp_form")||"{}");["cName","cAddr","cNote","cPay"].forEach(k=>{if(f[k])document.getElementById(k).value=f[k]})}catch(e){}
+const save=()=>{try{localStorage.setItem("bp_cart",JSON.stringify(S.cart))}catch(e){}};
+
+const $=s=>document.querySelector(s);
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const norm=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+
+/* brand select */
+const brandList=[...new Set(P.map(p=>p.brand))].filter(b=>b!=="Arena");
+$("#brand").insertAdjacentHTML("beforeend",brandList.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join(""));
+
+function renderCats(){
+  const keys=Object.keys(CATS).filter(k=>S.animal==="all"||CATS[k].a===S.animal);
+  if(S.cat&&!keys.includes(S.cat))S.cat="";
+  $("#cats").innerHTML=`<button class="chip" type="button" data-cat="" aria-pressed="${!S.cat}">Todas las categorías</button>`+
+    keys.map(k=>`<button class="chip" type="button" data-cat="${k}" aria-pressed="${S.cat===k}">${esc(CATS[k].t)}</button>`).join("");
+}
+const petIcon={perro:'<svg class="pet" viewBox="0 0 24 24" fill="currentColor"><path d="M5 9c-1.7 0-3-1.6-3-3.5S3 2 4 2l3 3h10l3-3c1 0 2 1.6 2 3.5S20.7 9 19 9v5a7 7 0 0 1-14 0zm4 3a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm6 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-3 4c-1 0-1.5.5-1.5 1s.7 1 1.5 1 1.5-.5 1.5-1-.5-1-1.5-1z"/></svg>',
+gato:'<svg class="pet" viewBox="0 0 24 24" fill="currentColor"><path d="M4 2l4 5h8l4-5v10a8 8 0 0 1-16 0zm5 9a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm6 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-3 4-1.5 1h3z"/></svg>'};
+
+function card(p){
+  const si=S.sel[p.id]??(p.pres.length>1?p.pres.length-1:0);
+  const pr=p.pres[si];
+  const wet=/húmedo|Filetes|Trocitos|Soft Cream|Instinctive/.test(p.name);
+  const anyGift=p.pres.some(x=>x.gift);
+  const short=p.name.split(" – ");
+  const kgTxt=pr.kg?`${String(pr.kg).replace(".",",")}<small>kg</small>`:(pr.label==="Unidad"?"1<small>u</small>":pr.label.replace(" g","<small>g</small>"));
+  const per=pr.kg?`${fmt(pr.price/pr.kg)} por kg`:"";
+  const giftTxt=pr.gift===2?"Esta bolsa trae de regalo alimento húmedo":pr.gift===1?"Esta bolsa trae regalo":"";
+  return `<article class="card" data-id="${p.id}">
+    <div class="bag" style="--bc:${BRANDS[p.brand]||"#555"}"><img class="ph" src="${IMGBASE}${IMG[p.id]}.png?size=400&quality=85" alt="${esc(p.name)}" loading="lazy" onerror="this.parentNode.classList.add('noimg')">
+      <div class="badges">${anyGift?'<span class="badge gift">Con regalo</span>':""}${p.rx?'<span class="badge rx">Dieta veterinaria</span>':""}${pr.old?'<span class="badge sale">Oferta</span>':""}</div>
+      <div class="pack${wet?" can":""}"><span class="bn">${esc(p.brand==="Arena"?"Arena":p.brand)}</span><span class="kg">${kgTxt}</span></div>
+      ${petIcon[p.animal]}
+    </div>
+    <div class="body">
+      <span class="brand">${esc(CATS[p.cat].t)}</span>
+      <h3>${esc(short[0])}${short[1]?` <span style="font-weight:500;color:var(--muted)">– ${esc(short[1])}</span>`:""}</h3>
+      <p class="desc" id="d${p.id}">${esc(p.desc)}${p.rx?" "+RX:""}</p>
+      ${p.desc.length>110?`<button class="more" type="button" data-more="${p.id}">Ver más</button>`:""}
+      ${p.pres.length>1?`<div class="pres" role="group" aria-label="Presentación">${p.pres.map((x,i)=>`<button type="button" data-pres="${p.id}:${i}" aria-pressed="${i===si}">${esc(x.label)}${x.gift?'<span class="gdot" title="Con regalo"></span>':""}</button>`).join("")}</div>`:`<div class="pres"><span class="perkg">${pr.label==="Unidad"?"Presentación única":esc(pr.label)}</span></div>`}
+      ${giftTxt?`<span class="giftline">🎁 ${giftTxt}</span>`:""}
+      <div class="buy">
+        <div><div class="price">${pr.old?`<s>${fmt(pr.old)}</s>`:""}${fmt(pr.price)}</div><div class="perkg">${per}</div></div>
+        <button class="add" type="button" data-add="${p.id}">Agregar</button>
+      </div>
+    </div>
+  </article>`;
+}
+
+function render(){
+  const q=norm(S.q.trim());
+  const list=P.filter(p=>(S.animal==="all"||p.animal===S.animal)&&(!S.cat||p.cat===S.cat)&&(!S.brand||p.brand===S.brand)&&(!q||q.split(/\s+/).every(w=>norm(p.name+" "+p.brand+" "+p.desc+" "+CATS[p.cat].t).includes(w))));
+  $("#rc").textContent=`${list.length} producto${list.length===1?"":"s"}`;
+  if(!list.length){$("#catalog").innerHTML=`<p class="empty">No encontramos productos con esa búsqueda. Probá con otra palabra o escribinos por WhatsApp y te lo conseguimos.</p>`;return}
+  const groups={};list.forEach(p=>(groups[p.cat]=groups[p.cat]||[]).push(p));
+  $("#catalog").innerHTML=Object.keys(CATS).filter(k=>groups[k]).map(k=>`<div class="section-title"><h2>${esc(CATS[k].t)}</h2><span>${groups[k].length} productos</span></div><div class="grid">${groups[k].map(card).join("")}</div>`).join("");
+}
+
+/* cart */
+function cartTotal(){return S.cart.reduce((a,c)=>a+c.price*c.qty,0)}
+function renderCart(){
+  const n=S.cart.reduce((a,c)=>a+c.qty,0);
+  $("#count").textContent=n;
+  $("#items").innerHTML=S.cart.length?S.cart.map((c,i)=>`<div class="it"><div class="n">${esc(c.name)}<div class="p">${esc(c.label)} · ${fmt(c.price)} c/u${c.gift?" · 🎁 con regalo":""}</div></div>
+    <div class="qty"><button type="button" data-q="${i}:-1" aria-label="Quitar uno">−</button><span class="num">${c.qty}</span><button type="button" data-q="${i}:1" aria-label="Agregar uno">+</button></div>
+    <div class="sub">${fmt(c.price*c.qty)}</div></div>`).join(""):`<p class="empty">Tu pedido está vacío. Elegí una bolsa y tocá <b>Agregar</b>.</p>`;
+  $("#total").textContent=fmt(cartTotal());
+  updateLink();
+}
+function updateLink(){
+  const f=id=>document.getElementById(id).value.trim();
+  try{localStorage.setItem("bp_form",JSON.stringify({cName:f("cName"),cAddr:f("cAddr"),cNote:f("cNote"),cPay:f("cPay")}))}catch(e){}
+  const a=$("#send");
+  if(!S.cart.length){a.setAttribute("aria-disabled","true");a.href="#";return}
+  a.setAttribute("aria-disabled","false");
+  const lines=["¡Hola BravoPet! Quiero hacer este pedido:",""];
+  S.cart.forEach(c=>lines.push(`• ${c.qty} x ${c.name} (${c.label}) – ${fmt(c.price*c.qty)}${c.gift?" 🎁":""}`));
+  lines.push("",`Total estimado: ${fmt(cartTotal())}`);
+  if(f("cName"))lines.push(`Nombre: ${f("cName")}`);
+  if(f("cAddr"))lines.push(`Dirección: ${f("cAddr")}`);
+  lines.push(`Pago: ${f("cPay")}`);
+  if(f("cNote"))lines.push(`Nota: ${f("cNote")}`);
+  a.href=`https://wa.me/${PHONE}?text=${encodeURIComponent(lines.join("\n"))}`;
+}
+function openCart(o){$("#drawer").hidden=!o;$("#scrim").hidden=!o;if(o)setTimeout(()=>$("#closeCart").focus(),50)}
+let tt;function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,1800)}
+
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.animal){S.animal=b.dataset.animal;document.querySelectorAll("[data-animal]").forEach(x=>x.setAttribute("aria-pressed",x===b));renderCats();render()}
+  else if(b.dataset.cat!==undefined&&b.classList.contains("chip")){S.cat=b.dataset.cat;renderCats();render()}
+  else if(b.dataset.pres){const [id,i]=b.dataset.pres.split(":").map(Number);S.sel[id]=i;const el=document.querySelector(`.card[data-id="${id}"]`);el.outerHTML=card(P[id])}
+  else if(b.dataset.more){const d=document.getElementById("d"+b.dataset.more);d.classList.toggle("open");b.textContent=d.classList.contains("open")?"Ver menos":"Ver más"}
+  else if(b.dataset.add){const p=P[+b.dataset.add];const si=S.sel[p.id]??(p.pres.length>1?p.pres.length-1:0);const pr=p.pres[si];
+    const ex=S.cart.find(c=>c.id===p.id&&c.label===pr.label);if(ex)ex.qty++;else S.cart.push({id:p.id,name:p.name,label:pr.label,price:pr.price,gift:pr.gift,qty:1});
+    save();renderCart();b.textContent="Agregado ✓";b.classList.add("done");setTimeout(()=>{b.textContent="Agregar";b.classList.remove("done")},1300);toast(`Agregaste ${p.name.split(" – ")[0]} ${pr.label}`)}
+  else if(b.dataset.q){const [i,d]=b.dataset.q.split(":").map(Number);S.cart[i].qty+=d;if(S.cart[i].qty<1)S.cart.splice(i,1);save();renderCart()}
+  else if(b.id==="openCart")openCart(true);
+  else if(b.id==="closeCart")openCart(false);
+  else if(b.id==="copyPhone"){const t="+54 9 381 588-9769";const ok=()=>toast("Número copiado");
+    try{navigator.clipboard.writeText(t).then(ok,()=>{selectTxt()})}catch(err){selectTxt()}}
+});
+function selectTxt(){const r=document.createRange();r.selectNodeContents($("#phoneTxt"));const s=getSelection();s.removeAllRanges();s.addRange(r);toast("Número seleccionado: copialo")}
+$("#scrim").addEventListener("click",()=>openCart(false));
+document.addEventListener("keydown",e=>{if(e.key==="Escape")openCart(false)});
+$("#brand").addEventListener("change",e=>{S.brand=e.target.value;render()});
+$("#q").addEventListener("input",e=>{S.q=e.target.value;render()});
+$("#checkout").addEventListener("input",updateLink);
+$("#checkout").addEventListener("submit",e=>e.preventDefault());
+
+renderCats();render();renderCart();
+</script>
+
+</body>
+</html>
